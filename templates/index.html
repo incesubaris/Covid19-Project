@@ -1,12 +1,27 @@
-<HTML>
-    <BODY bgcolor="cyan">
-    <form method="POST" action="">
-        <center>
-        <H1>Enter your details </H1> <br>
-        First Name <input type = "text" name= "fname" /> <br>
-        Last Name <input type = "text" name = "lname" /> <br>
+<!DOCTYPE html>
+<html>
+    <title>Hasta Kayıt Ekranı</title>
+    <link rel="stylesheet" href="/static/stylesheet.css">
+    <body>
+    <form method = "POST" action="">
+        <h2>Lütfen bilgileri doldurun! (*) Doldurulması zorunlu alanı simgeler. </h2> <br>
+        TCKN*: <input type = "text" name= "TCKN" /> <br>
+        Ad*: <input type = "text" name = "name" /> <br>
+        Soyad*: <input type = "text" name= "surname" /> <br>
+        Yaş*: in beta (b.day) <input type = "text" name = "age" /> <br>
+        <!--Gender*:
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label><br>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label><br>
+            <input type="radio" id="other" name="gender" value="other">
+            <label for="other">Other</label>-->
+        Cinsiyet*: <input type = "text" name = "gender" /> <br>
+        Telefon Numarası*: <input type = "text" name = "phone" /> <br>
+        Adres: <input type = "text" name = "adress" /> <br>
+        Kronik Hastalık: in beta (ratio select) <input type = "text" name = "illness" /> <br>
+
         <input type = "submit">
-        </center>
     </form>
-    </BODY>
-    </HTML>
+    </body>
+</html>
