@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
-app = Flask(__name__)
 
+app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'admin'
@@ -15,11 +15,19 @@ mysql = MySQL(app)
 def index():
     if request.method == "POST":
         details = request.form
-        firstName = details['fname']
-        lastName = details['lname']
+
+        tckn = int(details['TCKN'])
+        ad = details['name']
+        soyad = details['surname']
+        yas = int(details['age'])
+        cinsiyet = details['gender']
+        telefon = int(details['phone'])
+        adres = details['adress']
+        hastalık = int(details['illness'])
+
         cur = mysql.connection.cursor()
         cur.execute(
-            "INSERT INTO MyUsers(firstName, lastName) VALUES (%s, %s)", (firstName, lastName))
+            "INSERT INTO patient(TCKN, name, surname, age, gender, phone, adress, illness)VALUES (%s, %s, %s, %s, %s, %s, %s, %s);", (tckn, ad, soyad, yas, cinsiyet, telefon, adres, hastalık))
         mysql.connection.commit()
         cur.close()
         return 'success'
