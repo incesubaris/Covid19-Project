@@ -1,0 +1,8 @@
+USE BLG317;
+
+ALTER TABLE chronic_illness AUTO_INCREMENT= 001;
+
+ALTER TABLE hospital AUTO_INCREMENT= 16001;
+
+ALTER TABLE test
+ADD COLUMN result nchar(1);
