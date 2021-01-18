@@ -1,38 +1,31 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
+import views
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'admin'
-app.config['MYSQL_PASSWORD'] = 'Abcd.1234'
-app.config['MYSQL_DB'] = 'BLG317'
+
+app.secret_key = "your secret key"
+
+app.config["MYSQL_HOST"] = "localhost"
+app.config["MYSQL_USER"] = "root"
+app.config["MYSQL_PASSWORD"] = "admin"
+app.config["MYSQL_DB"] = "deneme"
+##app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
+app.config["app"] = app
+app.config["mysql"] = mysql
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == "POST":
-        details = request.form
-
-        tckn = int(details['TCKN'])
-        ad = details['name']
-        soyad = details['surname']
-        yas = int(details['age'])
-        cinsiyet = details['gender']
-        telefon = int(details['phone'])
-        adres = details['adress']
-        hastalık = int(details['illness'])
-
-        cur = mysql.connection.cursor()
-        cur.execute(
-            "INSERT INTO patient(TCKN, name, surname, age, gender, phone, adress, illness)VALUES (%s, %s, %s, %s, %s, %s, %s, %s);", (tckn, ad, soyad, yas, cinsiyet, telefon, adres, hastalık))
-        mysql.connection.commit()
-        cur.close()
-        return 'success'
-    return render_template('index.html')
+app.add_url_rule("/", view_func=views.index, methods=["GET", "POST"])
+app.add_url_rule("/read", view_func=views.read, methods=["GET", "POST"])
+app.add_url_rule("/update", view_func=views.update, methods=["GET", "POST"])
+app.add_url_rule("/delete", view_func=views.delete, methods=["GET", "POST"])
+app.add_url_rule("/logout", view_func=views.logout)
+app.add_url_rule("/login", view_func=views.login, methods=["GET", "POST"])
+app.add_url_rule("/register", view_func=views.register, methods=["GET", "POST"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()
