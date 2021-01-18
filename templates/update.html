@@ -1,0 +1,35 @@
+<!-- Store this code in 'register.html' file inside the 'templates' folder -->
+
+<html> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <title> Update </title> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">               
+    </head> 
+    <body></br></br></br></br></br> 
+        <a href="{{ url_for('index') }}" class ="btn">ANASAYFA</a>
+        <a href="{{ url_for('read') }}" class ="btn">GOSTER</a>
+        <div align = 'right'>
+        <a href="{{ url_for('login') }}" class ="btn">Giriş yap</a>
+        <a href="{{ url_for('update') }}" class ="btn">DEĞİŞTİR</a>
+        <a href="{{ url_for('delete') }}" class ="btn">SİL</a>
+        <a href="{{ url_for('register') }}" class ="btn">Kaydol</a>
+        </div>
+        <div align="center"> 
+            <div align="center" class="border"> 
+                <div class="header"> 
+                <h1 class="word">Update</h1> 
+                </div></br></br></br> 
+            <h2 class="word"> 
+                <form action="{{ url_for('update') }}" method="post"> 
+                    <div class="msg">{{ msg }}</div> 
+                    <input id="username" name="username" type="text" placeholder="Enter Your Username" class="textbox"/></br></br> 
+                    <input id="password" name="password" type="password" placeholder="Enter Your newPassword" class="textbox"/></br></br> 
+                    <input type="submit" class="btn" value="değiştir"></br> 
+                </form> 
+            </h2> 
+            <p class="bottom">gel gel  <a class="bottom" href="{{url_for('index')}}"> ansayfaya dön hacı</a></p> 
+            </div> 
+        </div> 
+    </body> 
+</html> 
