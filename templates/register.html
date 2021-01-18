@@ -6,7 +6,15 @@
         <title> Register </title> 
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">               
     </head> 
-    <body></br></br></br></br></br> 
+    <body></br></br></br></br></br>
+        <a href="{{ url_for('index') }}" class ="btn">ANASAYFA</a>
+        <a href="{{ url_for('read') }}" class ="btn">GOSTER</a>
+        <div align = 'right'>
+        <a href="{{ url_for('login') }}" class ="btn">Giriş yap</a>
+        <a href="{{ url_for('update') }}" class ="btn">DEĞİŞTİR</a>
+        <a href="{{ url_for('delete') }}" class ="btn">SİL</a>
+        <a href="{{ url_for('register') }}" class ="btn">Kaydol</a>
+        </div>
         <div align="center"> 
             <div align="center" class="border"> 
                 <div class="header"> 

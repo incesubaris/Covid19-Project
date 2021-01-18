@@ -6,41 +6,16 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">                      
     </head> 
     <body>
-        <p> hizmetler</p>
-        <a href="{{ url_for('logout') }}" class ="btn">HİZMET1</a>
-        <a href="{{ url_for('logout') }}" class ="btn">HİZMET2</a>
-        <a href="{{ url_for('logout') }}" class ="btn">HİZMET3</a>
-    <form method = "POST" action="">
-        <h2>Lütfen bilgileri doldurun! (*) Doldurulması zorunlu alanı simgeler. </h2> <br>
-        TCKN*: <input type = "text" name= "TCKN" /> <br>
-        Ad*: <input type = "text" name = "name" /> <br>
-        Soyad*: <input type = "text" name= "surname" /> <br>
-        Yaş*: in beta (b.day) <input type = "text" name = "age" /> <br>
-        <!--Gender*:
-            <input type="radio" id="male" name="gender" value="male">
-            <label for="male">Male</label><br>
-            <input type="radio" id="female" name="gender" value="female">
-            <label for="female">Female</label><br>
-            <input type="radio" id="other" name="gender" value="other">
-            <label for="other">Other</label>-->
-        Cinsiyet*: <input type = "text" name = "gender" /> <br>
-        Telefon Numarası*: <input type = "text" name = "phone" /> <br>
-        Adres: <input type = "text" name = "adress" /> <br>
-        Kronik Hastalık: in beta (ratio select) <input type = "text" name = "illness" /> <br>
-
-        <input type = "submit">
-    </form>
-
-    <div align="center"> 
-        <div align="center" class="border"> 
-            <div class="header"> 
-                <h1 class="word">Index</h1> 
-            </div></br></br></br> 
-                <h1 class="bottom"> 
-                    Hi {{session.username}}!!</br></br> Welcome to the index page...                  
-                </h1></br></br></br> 
-                <a href="{{ url_for('logout') }}" class="btn">Logout</a> 
-        </div> 
-        </div> 
+        <a href="{{ url_for('index') }}" class ="btn">ANASAYFA</a>
+        <a href="{{ url_for('read') }}" class ="btn">GOSTER</a>
+        <div align = 'right'>
+        <a href="{{ url_for('login') }}" class ="btn">Giriş yap</a>
+        <a href="{{ url_for('update') }}" class ="btn">DEĞİŞTİR</a>
+        <a href="{{ url_for('delete') }}" class ="btn">SİL</a>
+        <a href="{{ url_for('register') }}" class ="btn">Kaydol</a>
+        </div>
+    <h1>
+        HOŞGELDİNİZ..
+    </h1>
     </body>
 </html>
