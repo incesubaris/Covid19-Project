@@ -10,23 +10,30 @@ from flask import (
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
+import psycopg2
+
+conn = psycopg2.connect("dbname=deneme user=postgres host=localhost password=admin")
+cursor = conn.cursor()
+
+
+def read():
+    cursor.execute("SELECT * FROM accounts ORDER BY id ASC;")
+    info = cursor.fetchall()
+    return render_template("read.html", info=info)
+    ##mysql = current_app.config["mysql"]
+    ##cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    ##query = "SELECT * FROM accounts;"
+    ##cursor.execute(query)
+    ##info = cursor.fetchall()
+    ##return render_template("read.html", info=info)
 
 
 def index():
     return render_template("index.html")
 
 
-def read():
-    mysql = current_app.config["mysql"]
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    sorgu = "SELECT * FROM accounts;"
-    cursor.execute(sorgu)
-    info = cursor.fetchall()
-    return render_template("read.html", info=info)
-
-
 def update():
-    mysql = current_app.config["mysql"]
+    ##mysql = current_app.config["mysql"]
     msg = ""
     if (
         request.method == "POST"
@@ -35,18 +42,19 @@ def update():
     ):
         username = request.form["username"]
         newpassword = request.form["password"]
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("SELECT * FROM accounts WHERE username = % s", (username,))
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            "SELECT * FROM accounts WHERE username = '{0}';".format(username)
+        )
         account = cursor.fetchone()
         if account:
             cursor.execute(
-                "UPDATE accounts SET password = % s WHERE username = % s;",
-                (
-                    newpassword,
-                    username,
-                ),
+                "UPDATE accounts SET password = '{0}' WHERE username = '{1}';".format(
+                    newpassword, username
+                )
             )
-            mysql.connection.commit()
+            conn.commit()
+            # mysql.connection.commit()
             msg = "You have successfully changed !"
         else:
             msg = "HESAP YOK LAN"
@@ -54,19 +62,21 @@ def update():
 
 
 def delete():
-    mysql = current_app.config["mysql"]
+    # mysql = current_app.config["mysql"]
     msg = ""
     if request.method == "POST" and "username" in request.form:
         username = request.form["username"]
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("SELECT * FROM accounts WHERE username = % s", (username,))
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            "SELECT * FROM accounts WHERE username = '{0}';".format(username)
+        )
         account = cursor.fetchone()
         if account:
             cursor.execute(
-                "DELETE FROM accounts WHERE username = % s;",
-                (username,),
+                "DELETE FROM accounts WHERE username = '{0}';".format(username)
             )
-            mysql.connection.commit()
+            conn.commit()
+            # mysql.connection.commit()
             msg = "You have successfully deleted !"
         else:
             msg = "HESAP YOK LAN"
@@ -74,7 +84,7 @@ def delete():
 
 
 def login():
-    mysql = current_app.config["mysql"]
+    # mysql = current_app.config["mysql"]
     msg = ""
     if (
         request.method == "POST"
@@ -83,19 +93,17 @@ def login():
     ):
         username = request.form["username"]
         password = request.form["password"]
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-            "SELECT * FROM accounts WHERE username = % s AND password = % s",
-            (
-                username,
-                password,
-            ),
+            "SELECT * FROM accounts WHERE username = '{0}' AND password = '{1}';".format(
+                username, password
+            )
         )
         account = cursor.fetchone()
         if account:
             session["loggedin"] = True
-            session["id"] = account["id"]
-            session["username"] = account["username"]
+            session["id"] = account[1]
+            session["username"] = account[2]
             msg = "Logged in successfully !"
             return render_template("index.html", msg=msg)
         else:
@@ -111,7 +119,7 @@ def logout():
 
 
 def register():
-    mysql = current_app.config["mysql"]
+    # mysql = current_app.config["mysql"]
     msg = ""
     if (
         request.method == "POST"
@@ -122,8 +130,10 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         email = request.form["email"]
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("SELECT * FROM accounts WHERE username = % s", (username,))
+        # cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            "SELECT * FROM accounts WHERE username = '{0}';".format(username)
+        )
         account = cursor.fetchone()
         if account:
             msg = "Account already exists !"
@@ -135,14 +145,12 @@ def register():
             msg = "Please fill out the form !"
         else:
             cursor.execute(
-                "INSERT INTO accounts VALUES (NULL, % s, % s, % s)",
-                (
-                    username,
-                    password,
-                    email,
-                ),
+                "INSERT INTO accounts (username ,password, email) VALUES ('{0}', '{1}', '{2}');".format(
+                    username, password, email
+                )
             )
-            mysql.connection.commit()
+            conn.commit()
+            # mysql.connection.commit()
             msg = "You have successfully registered !"
     elif request.method == "POST":
         msg = "Please fill out the form !"

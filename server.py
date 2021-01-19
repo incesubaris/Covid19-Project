@@ -1,22 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 import views
+import psycopg2
 
 app = Flask(__name__)
 
 
 app.secret_key = "your secret key"
 
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = "admin"
-app.config["MYSQL_DB"] = "deneme"
+##app.config["MYSQL_HOST"] = "localhost"
+##app.config["MYSQL_USER"] = "root"
+##app.config["MYSQL_PASSWORD"] = "admin"
+##app.config["MYSQL_DB"] = "deneme"
 ##app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
-mysql = MySQL(app)
+##mysql = MySQL(app)
 
-app.config["app"] = app
-app.config["mysql"] = mysql
+##app.config["app"] = app
+##app.config["mysql"] = mysql
 
 app.add_url_rule("/", view_func=views.index, methods=["GET", "POST"])
 app.add_url_rule("/read", view_func=views.read, methods=["GET", "POST"])
