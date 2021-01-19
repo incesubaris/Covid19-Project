@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<body>
-    <a href="{{ url_for('index') }}" class ="btn">ANASAYFA</a>
-    <a href="{{ url_for('read') }}" class ="btn">GOSTER</a>
-    <div align = 'right'>
-    <a href="{{ url_for('login') }}" class ="btn">Giriş yap</a>
-    <a href="{{ url_for('update') }}" class ="btn">DEĞİŞTİR</a>
-    <a href="{{ url_for('delete') }}" class ="btn">SİL</a>
-    <a href="{{ url_for('register') }}" class ="btn">Kaydol</a>
-    </div>
+{% extends "layout.html" %}
+{% block content %}
     {% for info in info %}
 
-        <p>{{info.username}}</p><p>{{info.password}}</p><p>{{info.email}}</p>
+    <p>{{info[1]}} -- {{info[2]}} -- {{info[3]}}</p>
+
     {% endfor %}
-</body>
+    {% endblock %}

@@ -1,21 +1,20 @@
-<!DOCTYPE html>
-<html>
-    <head> 
-        <meta charset="UTF-8"> 
-        <title> Index </title> 
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">                      
-    </head> 
-    <body>
-        <a href="{{ url_for('index') }}" class ="btn">ANASAYFA</a>
-        <a href="{{ url_for('read') }}" class ="btn">GOSTER</a>
-        <div align = 'right'>
-        <a href="{{ url_for('login') }}" class ="btn">Giriş yap</a>
-        <a href="{{ url_for('update') }}" class ="btn">DEĞİŞTİR</a>
-        <a href="{{ url_for('delete') }}" class ="btn">SİL</a>
-        <a href="{{ url_for('register') }}" class ="btn">Kaydol</a>
-        </div>
-    <h1>
-        HOŞGELDİNİZ..
-    </h1>
-    </body>
-</html>
+
+{% extends "layout.html" %}
+{% block content %}
+
+
+    
+
+    <a href="{{ url_for('index') }}" >ANASAYFA</a>
+    <a href="{{ url_for('read') }}" >GOSTER</a>
+    <div align = 'right'>
+    <a href="{{ url_for('login') }}" >Giriş yap</a>
+    <a href="{{ url_for('update') }}" >DEĞİŞTİR</a>
+    <a href="{{ url_for('delete') }}" >SİL</a>
+    <a href="{{ url_for('register') }}" >Kaydol</a>
+    </div>
+<h1>
+    HOŞGELDİNİZ..
+</h1>
+
+    {% endblock %}
