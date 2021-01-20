@@ -14,7 +14,7 @@ INIT_STATEMENTS = [
         "phone" VARCHAR(11),
         "adress" VARCHAR(50),
         "password" VARCHAR(255),
-        PRIMARY KEY("TCKN")
+        PRIMARY KEY("tckn")
         );""",
     """CREATE TABLE IF NOT EXISTS PUBLIC.hospital (
         "id" SERIAL,
@@ -30,7 +30,7 @@ INIT_STATEMENTS = [
         "test_date" DATE NOT NULL,
 		"result" CHAR(1) NOT NULL,
         PRIMARY KEY (id),
-        FOREIGN KEY (patient) REFERENCES patient(TCKN),
+        FOREIGN KEY (patient) REFERENCES patient(tckn),
         FOREIGN KEY (hospital) REFERENCES hospital(id)
         );""",
 ]
