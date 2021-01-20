@@ -12,7 +12,7 @@ from flask import (
 # import MySQLdb.cursors
 # import re
 import psycopg2
-import re
+#import re
 import random
 
 conn = psycopg2.connect("dbname=deneme user=postgres host=localhost password=admin")
