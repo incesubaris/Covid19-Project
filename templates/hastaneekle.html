@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for info in info %}
+
+    <p>Username: {{info[1]}} -- Şifre: {{info[2]}} -- email: {{info[3]}}</p>
+
+    {% endfor %}
+    <div align="center"> 
+        <div align="center"> 
+            <div > 
+            <h1 >Register</h1> 
+            </div></br></br></br> 
+        <h2 > 
+            <form action="{{ url_for('hastaneekle') }}" method="post"> 
+                <div >{{ msg }}</div> 
+
+                <input id="name" name="name" type="text" placeholder="Enter Hospital Name" /></br></br>
+                <input id="paramedic_count" name="paramedic_count" type="number" placeholder="Enter paramedic_count" /></br></br>
+                <input id="capacity" name="capacity" type="number" placeholder="Enter capactiy" /></br></br>
+            
+                <input type="submit"  value="Oluştur"></br> 
+            </form> 
+        </h2> 
+        <p >Açık hastaneler için  <a href="{{url_for('hastanegoruntule')}}"> tıklayınız</a></p> 
+        </div> 
+    </div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div align="center"> 
+    <div align="center"> 
+        <div > 
+        <h1 >Register</h1> 
+        </div></br></br></br> 
+    <h2 > 
+        <form action="{{ url_for('test') }}" method="post"> 
+            <div >{{ msg }}</div> 
+            <input id="hospital" name="hospital" type="number" placeholder="Enter Your Hospital" /></br></br> 
+            <input id="date" name="date" type="date" placeholder="Enter Your date" /></br></br> 
+            <input type="submit"  value="Test Ver"></br> 
+        </form> 
+    </h2> 
+    <p>Zaten test verdiniz mi <a href="{{url_for('profile')}}"> Test Sonuçları</a></p> 
+    </div> 
+</div>
+
+{% endblock %}

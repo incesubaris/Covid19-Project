@@ -7,8 +7,8 @@
   </head>
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
-        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+      <a class="navbar-item" href="{{ url_for('index') }}">
+        Anasayfa
       </a>
   
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -20,46 +20,41 @@
   
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item">
-            <a href="{{ url_for('index') }}" >ANASAYFA</a>
-        </a>
-  
-        <a class="navbar-item">
-            <a href="{{ url_for('read') }}" >GOSTER</a>
-        </a>
-  
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            More
-          </a>
-  
-          <div class="navbar-dropdown">
-            <a class="navbar-item">
-              About
-            </a>
-            <a class="navbar-item">
-                <a href="{{ url_for('update') }}" >DEĞİŞTİR</a>
-            </a>
-            <a class="navbar-item">
-                <a href="{{ url_for('delete') }}" >SİL</a>
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              Report an issue
-            </a>
-          </div>
-        </div>
+            <a a class="navbar-item" href="{{ url_for('hastane') }}" >Hastane Ekranı</a>
       </div>
   
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
-              <strong><a href="{{ url_for('register') }}" >Kaydol</a></strong>
-            </a>
-            <a class="button is-light">
-                <a href="{{ url_for('login') }}" >Giriş yap</a>
-            </a>
+            {% if session["loggedin"] %}
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link" href="/profile">
+                {{session["name"]}}
+              </a>
+      
+              <div class="navbar-dropdown">
+                <a class="navbar-item">
+                  About
+                </a>
+    
+                    <a class="navbar-item" href="{{ url_for('update') }}" ></a>
+                    <a class="navbar-item" href="{{ url_for('delete') }}" >SİL</a>
+                    <a class="navbar-item" href="{{ url_for('test') }}" >TESTVER</a>
+                    <a class="navbar-item" href="{{ url_for('testsonuc') }}" >TESTVER</a>
+                <hr class="navbar-divider">
+                <a class="navbar-item">
+                  Report an issue
+                </a>
+              </div>
+            </div>
+              <a class="button is-primary" href="/profile" > {{session['name']}}</a>
+              <a class="button is-light" href="{{ url_for('logout') }}" >Logout</a>
+
+            {% else %}
+                <a class="button is-primary"href="{{ url_for('register') }}" >Kaydol</a>
+                <a class="button is-light" href="{{ url_for('login') }}" >Giriş yap</a>
+            {% endif %}
+            
           </div>
         </div>
       </div>

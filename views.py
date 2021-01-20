@@ -7,13 +7,215 @@ from flask import (
     session,
     current_app,
 )
-from flask_mysqldb import MySQL
-import MySQLdb.cursors
-import re
+
+# from flask_mysqldb import MySQL
+# import MySQLdb.cursors
+# import re
 import psycopg2
+import re
+import random
 
 conn = psycopg2.connect("dbname=deneme user=postgres host=localhost password=admin")
 cursor = conn.cursor()
+
+
+def index():
+    cursor.execute("SELECT COUNT(*) FROM patient;")
+    a = cursor.fetchone()
+    cursor.execute("SELECT COUNT(*) FROM test;")
+    b = cursor.fetchone()
+    return render_template("index.html", a=a, b=b)
+
+
+def login():
+    # mysql = current_app.config["mysql"]
+    msg = ""
+    if (
+        request.method == "POST"
+        and "TCKN" in request.form
+        and "password" in request.form
+    ):
+        TCKN = request.form["TCKN"]
+        password = request.form["password"]
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            "SELECT * FROM patient WHERE tckn = '{0}' AND password = '{1}';".format(
+                TCKN, password
+            )
+        )
+        account = cursor.fetchone()
+        if account:
+            session["loggedin"] = True
+            session["tckn"] = account[0]
+            session["name"] = account[1]
+            session["surname"] = account[2]
+            session["age"] = account[3]
+            session["gender"] = account[4]
+            session["phone"] = account[5]
+            session["adress"] = account[6]
+            msg = "Logged in successfully !"
+            return redirect(url_for("profile"))
+            # return redirect(url_for('profil'),id=account[0])
+        else:
+            msg = "Incorrect username / password !"
+    return render_template("login.html", msg=msg)
+
+
+def logout():
+    session["loggedin"] = False
+    return redirect(url_for("index"))
+
+
+def register():
+    # mysql = current_app.config["mysql"]
+    msg = ""
+    if (
+        request.method == "POST"
+        and "TCKN" in request.form
+        and "name" in request.form
+        and "surname" in request.form
+        and "age" in request.form
+        and "gender" in request.form
+        and "phone" in request.form
+        and "adress" in request.form
+        and "password" in request.form
+    ):
+        TCKN = request.form["TCKN"]
+        name = request.form["name"]
+        surname = request.form["surname"]
+        age = request.form["age"]
+        gender = request.form["gender"]
+        phone = request.form["phone"]
+        adress = request.form["adress"]
+        password = request.form["password"]
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT * FROM patient WHERE tckn = '{0}';".format(TCKN))
+        account = cursor.fetchone()
+        if account:
+            msg = "TCKN already exists !"
+        # elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        # msg = "Invalid email address !"
+        # elif not re.match(r"[A-Za-z0-9]+", username):
+        # msg = "Username must contain only characters and numbers !"
+        elif (
+            not TCKN or not name or not surname or not age or not gender or not password
+        ):
+            msg = "Please fill out the form !"
+        else:
+            cursor.execute(
+                "INSERT INTO patient (TCKN ,name, surname, age, gender, phone, adress, password) VALUES ('{0}', '{1}', '{2}', {3},'{4}','{5}','{6}','{7}');".format(
+                    TCKN, name, surname, age, gender, phone, adress, password
+                )
+            )
+            conn.commit()
+            # mysql.connection.commit()
+            msg = "You have successfully registered !"
+    elif request.method == "POST":
+        msg = "Please fill out the form !"
+    return render_template("register.html", msg=msg)
+
+
+def profile():
+    cursor.execute("SELECT * FROM patient WHERE tckn = '{0}';".format(session["tckn"]))
+    patient = cursor.fetchone()
+    return render_template("profile.html", patient=patient)
+
+
+def test():
+    if (
+        request.method == "POST"
+        and "hospital" in request.form
+        and "date" in request.form
+    ):
+        TCKN = session["tckn"]
+        hospital = request.form["hospital"]
+        test_date = request.form["date"]
+        r = random.randint(0, 9)
+        if r < 3:  # Positive rate %30
+            result = "p"
+        else:
+            result = "n"
+
+        cursor.execute(
+            "INSERT INTO test(patient, hospital, test_date, result) VALUES ('{0}', {1}, '{2}', '{3}');".format(
+                TCKN, hospital, test_date, result
+            )
+        )
+
+        # mysql.connection.commit()
+        conn.commit()
+        # cursor.close()
+    return render_template("test.html")
+
+
+def testsonuc():
+    cursor.execute(
+        "SELECT id, hospital, test_date, result FROM test WHERE patient = '{0}';".format(
+            session["tckn"]
+        )
+    )
+    info = cursor.fetchall()
+    return render_template("testsonuc.html", info=info)
+
+
+def update():
+    ##mysql = current_app.config["mysql"]
+    msg = ""
+    if (
+        request.method == "POST"
+        and "password" in request.form
+        and "newpassword" in request.form
+    ):
+        password = request.form["password"]
+        newpassword = request.form["newpassword"]
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            "SELECT * FROM patient WHERE tckn = '{0}' AND password = '{1}';".format(
+                session["tckn"], password
+            )
+        )
+        account = cursor.fetchone()
+        if account:
+            cursor.execute(
+                "UPDATE patient SET password = '{0}' WHERE tckn = '{1}';".format(
+                    newpassword, session["tckn"]
+                )
+            )
+            conn.commit()
+            # mysql.connection.commit()
+            msg = "You have successfully changed password!"
+
+        else:
+            msg = "şifre hatalı"
+    return render_template("update.html", msg=msg)
+
+
+def delete():
+    # mysql = current_app.config["mysql"]
+    msg = ""
+    if request.method == "POST" and "password" in request.form:
+        password = request.form["password"]
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor) # şifre kontorlü
+        cursor.execute(
+            "SELECT * FROM patient WHERE tckn = '{0}' AND password = '{1}';".format(
+                session["tckn"], password
+            )
+        )
+        account = cursor.fetchone()
+        if account:
+            cursor.execute(
+                "DELETE FROM test WHERE patient = '{0}';".format(session["tckn"])
+            )
+            cursor.execute(
+                "DELETE FROM patient WHERE tckn = '{0}';".format(session["tckn"])
+            )
+            conn.commit()
+            # mysql.connection.commit()
+            msg = "You have successfully deleted !"
+            logout()
+        else:
+            msg = "Şifrenizi giriniz"
+    return render_template("delete.html", msg=msg)
 
 
 def read():
@@ -28,130 +230,57 @@ def read():
     ##return render_template("read.html", info=info)
 
 
-def index():
-    return render_template("index.html")
+def hastane():
+    return render_template("hastane.html")
 
 
-def update():
-    ##mysql = current_app.config["mysql"]
-    msg = ""
+def hastaneekle():
     if (
         request.method == "POST"
-        and "username" in request.form
-        and "password" in request.form
-    ):
-        username = request.form["username"]
-        newpassword = request.form["password"]
-        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        and "name" in request.form
+        and "paramedic_count" in request.form
+        and "capacity" in request.form
+        ):
+        name = request.form["name"]
+        paramedic_count = request.form["paramedic_count"]
+        capacity = request.form["capacity"]
         cursor.execute(
-            "SELECT * FROM accounts WHERE username = '{0}';".format(username)
-        )
-        account = cursor.fetchone()
-        if account:
-            cursor.execute(
-                "UPDATE accounts SET password = '{0}' WHERE username = '{1}';".format(
-                    newpassword, username
-                )
-            )
-            conn.commit()
-            # mysql.connection.commit()
-            msg = "You have successfully changed !"
-        else:
-            msg = "HESAP YOK LAN"
-    return render_template("update.html", msg=msg)
-
-
-def delete():
-    # mysql = current_app.config["mysql"]
-    msg = ""
-    if request.method == "POST" and "username" in request.form:
-        username = request.form["username"]
-        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            "SELECT * FROM accounts WHERE username = '{0}';".format(username)
-        )
-        account = cursor.fetchone()
-        if account:
-            cursor.execute(
-                "DELETE FROM accounts WHERE username = '{0}';".format(username)
-            )
-            conn.commit()
-            # mysql.connection.commit()
-            msg = "You have successfully deleted !"
-        else:
-            msg = "HESAP YOK LAN"
-    return render_template("delete.html", msg=msg)
-
-
-def login():
-    # mysql = current_app.config["mysql"]
-    msg = ""
-    if (
-        request.method == "POST"
-        and "username" in request.form
-        and "password" in request.form
-    ):
-        username = request.form["username"]
-        password = request.form["password"]
-        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            "SELECT * FROM accounts WHERE username = '{0}' AND password = '{1}';".format(
-                username, password
+            "INSERT INTO hospital(name, paramedic_count, capacity) VALUES ('{0}', {1}, '{2}');".format(
+                name, paramedic_count, capacity
             )
         )
-        account = cursor.fetchone()
-        if account:
-            session["loggedin"] = True
-            session["id"] = account[1]
-            session["username"] = account[2]
-            msg = "Logged in successfully !"
-            return render_template("index.html", msg=msg)
-        else:
-            msg = "Incorrect username / password !"
-    return render_template("login.html", msg=msg)
+        # mysql.connection.commit()
+        conn.commit()
 
 
-def logout():
-    session.pop("loggedin", None)
-    session.pop("id", None)
-    session.pop("username", None)
-    return redirect(url_for("login"))
+    return render_template("hastaneekle.html")
 
 
-def register():
-    # mysql = current_app.config["mysql"]
-    msg = ""
-    if (
-        request.method == "POST"
-        and "username" in request.form
-        and "password" in request.form
-        and "email" in request.form
-    ):
-        username = request.form["username"]
-        password = request.form["password"]
-        email = request.form["email"]
-        # cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            "SELECT * FROM accounts WHERE username = '{0}';".format(username)
+def hastanegoruntule():
+    cursor.execute(
+        "SELECT id, hospital, test_date, result FROM test WHERE patient = '{0}';".format(
+            session["tckn"]
         )
-        account = cursor.fetchone()
-        if account:
-            msg = "Account already exists !"
-        elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            msg = "Invalid email address !"
-        elif not re.match(r"[A-Za-z0-9]+", username):
-            msg = "Username must contain only characters and numbers !"
-        elif not username or not password or not email:
-            msg = "Please fill out the form !"
-        else:
-            cursor.execute(
-                "INSERT INTO accounts (username ,password, email) VALUES ('{0}', '{1}', '{2}');".format(
-                    username, password, email
-                )
-            )
-            conn.commit()
-            # mysql.connection.commit()
-            msg = "You have successfully registered !"
-    elif request.method == "POST":
-        msg = "Please fill out the form !"
-    return render_template("register.html", msg=msg)
+    )
+    info = cursor.fetchall()
+    return render_template("hastaneekle.html", info=info)
+
+
+def hastaneguncelleme():
+    cursor.execute(
+        "SELECT id, hospital, test_date, result FROM test WHERE patient = '{0}';".format(
+            session["tckn"]
+        )
+    )
+    info = cursor.fetchall()
+    return render_template("hastaneekle.html", info=info)
+
+
+def hastanesilme():
+    cursor.execute(
+        "SELECT id, hospital, test_date, result FROM test WHERE patient = '{0}';".format(
+            session["tckn"]
+        )
+    )
+    info = cursor.fetchall()
+    return render_template("hastaneekle.html", info=info)

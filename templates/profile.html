@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1>
+  TCKN: {{patient[0]}}
+  İsim: {{patient[1]}}
+  Soyisim: {{patient[2]}}
+  Yaş: {{patient[3]}}
+  Cinsiyet: {{patient[4]}}
+  Telefon: {{patient[5]}}
+  Adress: {{patient[6]}}
+
+</h1>
+
+<p >Şifre değiştirmek için  <a href="{{url_for('update')}}"> buraya tıklayınız</a></p> 
+<p >Hesabı silmek için  <a href="{{url_for('delete')}}"> buraya tıklayınız</a></p> 
+
+{% endblock %}

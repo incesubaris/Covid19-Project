@@ -1,20 +1,7 @@
-
 {% extends "layout.html" %}
-{% block content %}
 
+{% block content %} 
 
-    
+<p>Başvuran: {{a}}  Test Syısı:{{b}}</p>
 
-    <a href="{{ url_for('index') }}" >ANASAYFA</a>
-    <a href="{{ url_for('read') }}" >GOSTER</a>
-    <div align = 'right'>
-    <a href="{{ url_for('login') }}" >Giriş yap</a>
-    <a href="{{ url_for('update') }}" >DEĞİŞTİR</a>
-    <a href="{{ url_for('delete') }}" >SİL</a>
-    <a href="{{ url_for('register') }}" >Kaydol</a>
-    </div>
-<h1>
-    HOŞGELDİNİZ..
-</h1>
-
-    {% endblock %}
+{% endblock %}

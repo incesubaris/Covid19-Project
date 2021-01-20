@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for info in info %}
+
+    <p>Test No: {{info[0]}} -- Hastane No: {{info[1]}} -- Test Tarihi: {{info[2]}} -- Sonuç: {{info[3]}}</p>
+
+    {% endfor %}
+{% endblock %}

@@ -1,4 +1,3 @@
-<!-- Store this code in 'register.html' file inside the 'templates' folder -->
 {% extends "layout.html" %}
 {% block content %}
 
@@ -11,12 +10,12 @@
         <h2 > 
             <form action="{{ url_for('update') }}" method="post"> 
                 <div >{{ msg }}</div> 
-                <input id="username" name="username" type="text" placeholder="Enter Your Username" /></br></br> 
-                <input id="password" name="password" type="password" placeholder="Enter Your newPassword" /></br></br> 
+                <input id="password" name="password" type="password" placeholder="Enter Your current password" /></br></br> 
+                <input id="newpassword" name="newpassword" type="password" placeholder="Enter Your newPassword" /></br></br> 
                 <input type="submit"  value="değiştir"></br> 
             </form> 
         </h2> 
-        <p >gel gel  <a  href="{{url_for('index')}}"> ansayfaya dön hacı</a></p> 
+        <p >Buradan <a  href="{{url_for('profile')}}"> Profile dön</a></p> 
         </div> 
     </div> 
 
