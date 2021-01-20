@@ -4,4 +4,10 @@
 
 <p>Başvuran: {{a[0]}}  Toplam Test Sayısı:{{b[0]}} Toplam Hastane Sayısı:{{c[0]}} Toplam Kapasite: {{d[0]}}</p>
 
+{% for info2 in info2 %}
+
+<p> id: {{info2[0]}} -- name: {{info2[1]}} -- capacity: {{info2[2]}}</p>
+
+{% endfor %}
+
 {% endblock %}
