@@ -7,6 +7,11 @@
         <h1 >TEST VER</h1> 
         </div></br></br></br> 
     <h2 > 
+    {% for info in info %}
+
+    <p>Hstane ID: {{info[0]}} -- Hastane Name: {{info[1]}} -- Paramedic: {{info[2]}} -- Capacity: {{info[3]}}</p>
+
+    {% endfor %}
         <form action="{{ url_for('test') }}" method="post"> 
             <div >{{ msg }}</div> 
             <input id="hospital" name="hospital" type="number" placeholder="Enter Your Hospital" /></br></br> 

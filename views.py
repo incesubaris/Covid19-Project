@@ -127,6 +127,8 @@ def profile():
 
 
 def test():
+    cursor.execute("SELECT * FROM hospital ORDER BY id ASC;")
+    hastaneler = cursor.fetchall()
     if (
         request.method == "POST"
         and "hospital" in request.form
@@ -150,7 +152,7 @@ def test():
         # mysql.connection.commit()
         conn.commit()
         # cursor.close()
-    return render_template("test.html")
+    return render_template("test.html",hastaneler = hastaneler)
 
 
 def testsonuc():
