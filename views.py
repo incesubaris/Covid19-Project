@@ -26,7 +26,11 @@ def index():
     a = cursor.fetchone()
     cursor.execute("SELECT COUNT(*) FROM test;")
     b = cursor.fetchone()
-    return render_template("index.html", a=a, b=b)
+    cursor.execute("SELECT COUNT(*) FROM hospital;")
+    c = cursor.fetchone()
+    cursor.execute("SELECT SUM(capacity) FROM hospital;")
+    d = cursor.fetchone()
+    return render_template("index.html", a=a, b=b, c=c, d=d)
 
 
 def login():
@@ -152,7 +156,7 @@ def test():
         # mysql.connection.commit()
         conn.commit()
         # cursor.close()
-    return render_template("test.html",hastaneler = hastaneler)
+    return render_template("test.html", hastaneler=hastaneler)
 
 
 def testsonuc():
