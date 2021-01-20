@@ -229,18 +229,6 @@ def delete():
     return render_template("delete.html", msg=msg)
 
 
-def read():
-    cursor.execute("SELECT * FROM accounts ORDER BY id ASC;")
-    info = cursor.fetchall()
-    return render_template("read.html", info=info)
-    ##mysql = current_app.config["mysql"]
-    ##cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    ##query = "SELECT * FROM accounts;"
-    ##cursor.execute(query)
-    ##info = cursor.fetchall()
-    ##return render_template("read.html", info=info)
-
-
 def hastane():
     return render_template("hastane.html")
 
@@ -327,11 +315,11 @@ def hastanesilme():
     return render_template("hastanesilme.html", msg=msg)
 
 
-def admin():
+"""def admin():
     cursor.execute("SELECT * FROM patient;")
     patient = cursor.fetchall()
     cursor.execute("SELECT * FROM test;")
     test = cursor.fetchall()
     cursor.execute("SELECT * FROM hospital;")
     hospital = cursor.fetchall()
-    return render_template("admin.html", patient=patient, test=test, hospital=hospital)
+    return render_template("admin.html", patient=patient, test=test, hospital=hospital)"""
