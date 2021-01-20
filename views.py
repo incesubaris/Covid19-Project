@@ -30,9 +30,7 @@ def index():
     c = cursor.fetchone()
     cursor.execute("SELECT SUM(capacity) FROM hospital;")
     d = cursor.fetchone()
-    cursor.execute( "SELECT  id, name, capacity FROM hospital INNER JOIN test ON hospital.id = test.hospital;")
-    info2 = cursor.fetchall()
-    return render_template("index.html", a=a, b=b, c=c, d=d,info2=info2)
+    return render_template("index.html", a=a, b=b, c=c, d=d)
 
 
 def login():
