@@ -325,3 +325,15 @@ def hastanesilme():
         else:
             msg = "böyle hastane bulunamadı"
     return render_template("hastanesilme.html", msg=msg)
+
+
+def admin():
+    cursor.execute("SELECT * FROM patient;")
+    patient = cursor.fetchall()
+    cursor.execute("SELECT * FROM test;")
+    test = cursor.fetchall()
+    cursor.execute("SELECT * FROM hospital;")
+    hospital = cursor.fetchall()
+    return render_template(
+        "admin.html", title="Admin Panel", patient=patient, test=test, hospital=hospital
+    )

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <h1>PATIENT TABLE</h1>
+    {% for p in patient %}
+
+    
+    <p> tckn: {{t[0]}} name: {{t[1]}} surname: {{t[2]}} age: {{t[3]}} gender: {{t[4]}} phone: {{t[5]}} adress: {{t[6]}} password: {{t[7]}}</p>
+    
+
+    {% endfor %}
+    <h1>TEST TABLE</h1>
+    {% for t in test %}
+
+    
+    <p> id: {{t[0]}} hospital.patient: {{t[1]}} hospital.id: {{t[2]}} test_date: {{t[3]}} result: {{t[3]}}</p>
+    
+
+    {% endfor %}
+    <h1>HOSPITAL TABLE</h1>
+    {% for h in hospital %}
+
+    
+    <p> id: {{h[0]}} name: {{h[1]}} paramedic_count: {{h[2]}} capactiy {{h[3]}}</p>
+    
+
+    {% endfor %}
+
+{% endblock %}
