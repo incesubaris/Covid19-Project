@@ -6,13 +6,14 @@ import psycopg2 as dbapi2
 INIT_STATEMENTS = [
     """CREATE SCHEMA IF NOT EXISTS PUBLIC;""",
     """CREATE TABLE IF NOT EXISTS PUBLIC.patient (
-    	"TCKN" VARCHAR(11),
+    	"tckn" VARCHAR(11),
         "name" VARCHAR(20) NOT NULL,
         "surname" VARCHAR(20) NOT NULL,
         "age" INT NOT NULL,
         "gender" CHAR(1) NOT NULL,
         "phone" VARCHAR(11),
         "adress" VARCHAR(50),
+        "password" VARCHAR(255),
         PRIMARY KEY("TCKN")
         );""",
     """CREATE TABLE IF NOT EXISTS PUBLIC.hospital (

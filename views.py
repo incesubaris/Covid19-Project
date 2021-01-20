@@ -283,7 +283,7 @@ def hastaneguncelleme():
         if hospital:
             cursor.execute(
                 "UPDATE hospital SET capacity = '{0}' WHERE id = {1};".format(
-                    id, newcapacity
+                    newcapacity, id
                 )
             )
             conn.commit()
@@ -311,7 +311,6 @@ def hastanesilme():
             conn.commit()
             # mysql.connection.commit()
             msg = "You have successfully deleted !"
-            logout()
         else:
             msg = "böyle hastane bulunamadı"
     return render_template("hastanesilme.html", msg=msg)
