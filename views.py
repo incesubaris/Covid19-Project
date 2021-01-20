@@ -12,7 +12,8 @@ from flask import (
 # import MySQLdb.cursors
 # import re
 import psycopg2
-#import re
+
+# import re
 import random
 
 dsn = "postgres://cmwnxxaaygjldp:31b8a72313d52d8366f032b9ad669f7e91cef2aa3290866caf09345f84c562f1@ec2-52-2-6-71.compute-1.amazonaws.com:5432/d37b6b1t8t884a"
@@ -119,7 +120,10 @@ def register():
 def profile():
     cursor.execute("SELECT * FROM patient WHERE tckn = '{0}';".format(session["tckn"]))
     patient = cursor.fetchone()
-    return render_template("profile.html", patient=patient)
+    if patient:
+        return render_template("profile.html", patient=patient)
+    else:
+        return render_template("index.html")
 
 
 def test():
