@@ -34,20 +34,17 @@
       
               <div class="navbar-dropdown">
                 <a class="navbar-item">
-                  About
                 </a>
-    
-                    <a class="navbar-item" href="{{ url_for('update') }}" ></a>
-                    <a class="navbar-item" href="{{ url_for('delete') }}" >SİL</a>
-                    <a class="navbar-item" href="{{ url_for('test') }}" >TESTVER</a>
-                    <a class="navbar-item" href="{{ url_for('testsonuc') }}" >TESTVER</a>
+                    <a class="navbar-item" href="{{ url_for('update') }}" > Şifre Değiştir</a>
+                    <a class="navbar-item" href="{{ url_for('delete') }}" >Hesabımı Sil</a>
+                    <a class="navbar-item" href="{{ url_for('test') }}" > Test Ver</a>
+                    <a class="navbar-item" href="{{ url_for('testsonuc') }}" >Test Sonuçlarım</a>
                 <hr class="navbar-divider">
                 <a class="navbar-item">
                   Report an issue
                 </a>
               </div>
             </div>
-              <a class="button is-primary" href="/profile" > {{session['name']}}</a>
               <a class="button is-light" href="{{ url_for('logout') }}" >Logout</a>
 
             {% else %}
