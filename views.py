@@ -240,7 +240,7 @@ def hastaneekle():
         and "name" in request.form
         and "paramedic_count" in request.form
         and "capacity" in request.form
-        ):
+    ):
         name = request.form["name"]
         paramedic_count = request.form["paramedic_count"]
         capacity = request.form["capacity"]
@@ -252,35 +252,66 @@ def hastaneekle():
         # mysql.connection.commit()
         conn.commit()
 
-
     return render_template("hastaneekle.html")
 
 
 def hastanegoruntule():
-    cursor.execute(
-        "SELECT id, hospital, test_date, result FROM test WHERE patient = '{0}';".format(
-            session["tckn"]
-        )
-    )
+    cursor.execute("SELECT * FROM hospital ORDER BY id ASC;")
     info = cursor.fetchall()
-    return render_template("hastaneekle.html", info=info)
+    return render_template("hastanegoruntuleme.html", info=info)
+    ##mysql = current_app.config["mysql"]
+    ##cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    ##query = "SELECT * FROM accounts;"
+    ##cursor.execute(query)
+    ##info = cursor.fetchall()
+    ##return render_template("read.html", info=info)
 
 
 def hastaneguncelleme():
-    cursor.execute(
-        "SELECT id, hospital, test_date, result FROM test WHERE patient = '{0}';".format(
-            session["tckn"]
-        )
-    )
-    info = cursor.fetchall()
-    return render_template("hastaneekle.html", info=info)
+    ##mysql = current_app.config["mysql"]
+    msg = ""
+    if (
+        request.method == "POST"
+        and "id" in request.form
+        and "newcapacity" in request.form
+    ):
+        id = request.form["id"]
+        newcapacity = request.form["newcapacity"]
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT * FROM hospital WHERE id = '{0}';".format(id))
+        hospital = cursor.fetchone()
+        if hospital:
+            cursor.execute(
+                "UPDATE hospital SET capacity = '{0}' WHERE id = {1};".format(
+                    id, newcapacity
+                )
+            )
+            conn.commit()
+            # mysql.connection.commit()
+            msg = "You have successfully changed capacity!"
+
+        else:
+            msg = "hastane id yok"
+    return render_template("hastaneguncelleme.html", msg=msg)
 
 
 def hastanesilme():
-    cursor.execute(
-        "SELECT id, hospital, test_date, result FROM test WHERE patient = '{0}';".format(
-            session["tckn"]
-        )
-    )
-    info = cursor.fetchall()
-    return render_template("hastaneekle.html", info=info)
+    # mysql = current_app.config["mysql"]
+    ##mysql = current_app.config["mysql"]
+    msg = ""
+    if request.method == "POST" and "id" in request.form:
+        id = request.form["id"]
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT * FROM hospital WHERE id = '{0}';".format(id))
+        hospital = cursor.fetchone()
+        if hospital:
+            cursor.execute("DELETE FROM test WHERE hospital = '{0}';".format(id))
+
+            cursor.execute("DELETE FROM hospital WHERE id = '{0}';".format(id))
+            conn.commit()
+            # mysql.connection.commit()
+            msg = "You have successfully deleted !"
+            logout()
+        else:
+            msg = "böyle hastane bulunamadı"
+    return render_template("hastanesilme.html", msg=msg)

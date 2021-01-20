@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+    <div align="center"> 
+        <div align="center" > 
+            <div > 
+            <h1 >Update</h1> 
+            </div></br></br></br> 
+        <h2 > 
+            <form action="{{ url_for('hastanesilme') }}" method="post"> 
+                <div >{{ msg }}</div> 
+                <input id="id" name="id" type="number" placeholder="Enter hospital id" /></br></br> 
+                <input type="submit"  value="değiştir"></br> 
+            </form> 
+        </h2> 
+        <p >Buradan <a  href="{{url_for('hastane')}}"> hastane ekranına dön</a></p> 
+        </div> 
+    </div> 
+
+
+    {% endblock %}
