@@ -34,3 +34,19 @@ INIT_STATEMENTS = [
         FOREIGN KEY (hospital) REFERENCES hospital(id)
         );""",
 ]
+
+
+def initialize(url):
+    with dbapi2.connect(url) as connection:
+        cursor = connection.cursor()
+        for statement in INIT_STATEMENTS:
+            cursor.execute(statement)
+        cursor.close()
+
+
+if __name__ == "__main__":
+    url = "postgres://cmwnxxaaygjldp:31b8a72313d52d8366f032b9ad669f7e91cef2aa3290866caf09345f84c562f1@ec2-52-2-6-71.compute-1.amazonaws.com:5432/d37b6b1t8t884a"
+    if url is None:
+        print("Usage: DATABASE_URL=url python dbinit.py", file=sys.stderr)
+        sys.exit(1)
+    initialize(url)
