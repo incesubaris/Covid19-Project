@@ -2,26 +2,26 @@
 {% block content %}
 
     <h1>PATIENT TABLE</h1>
-    {% for p in patient %}
+    {% for patient in patient %}
 
     
-    <p> tckn: {{t[0]}} name: {{t[1]}} surname: {{t[2]}} age: {{t[3]}} gender: {{t[4]}} phone: {{t[5]}} adress: {{t[6]}} password: {{t[7]}}</p>
+    <p> tckn: {{patient[0]}} name: {{patient[1]}} surname: {{patient[2]}} age: {{patient[3]}} gender: {{patient[4]}} phone: {{patient[5]}} adress: {{patient[6]}} password: {{patient[7]}}</p>
     
 
     {% endfor %}
     <h1>TEST TABLE</h1>
-    {% for t in test %}
+    {% for test in test %}
 
     
-    <p> id: {{t[0]}} hospital.patient: {{t[1]}} hospital.id: {{t[2]}} test_date: {{t[3]}} result: {{t[3]}}</p>
+    <p> id: {{test[0]}} hospital.patient: {{test[1]}} hospital.id: {{test[2]}} test_date: {{test[3]}} result: {{test[4]}}</p>
     
 
     {% endfor %}
     <h1>HOSPITAL TABLE</h1>
-    {% for h in hospital %}
+    {% for hospital in hospital %}
 
     
-    <p> id: {{h[0]}} name: {{h[1]}} paramedic_count: {{h[2]}} capactiy {{h[3]}}</p>
+    <p> id: {{hospital[0]}} name: {{hospital[1]}} paramedic_count: {{hospital[2]}} capactiy {{hospital[3]}}</p>
     
 
     {% endfor %}
