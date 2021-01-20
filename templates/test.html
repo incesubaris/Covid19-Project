@@ -7,9 +7,9 @@
         <h1 >TEST VER</h1> 
         </div></br></br></br> 
     <h2 > 
-    {% for info in info %}
+    {% for hastane in hastaneler %}
 
-    <p>Hstane ID: {{info[0]}} -- Hastane Name: {{info[1]}} -- Paramedic: {{info[2]}} -- Capacity: {{info[3]}}</p>
+    <p>Hstane ID: {{hastane[0]}} -- Hastane Name: {{hastane[1]}} -- Paramedic: {{hastane[2]}} -- Capacity: {{hastane[3]}}</p>
 
     {% endfor %}
         <form action="{{ url_for('test') }}" method="post"> 
