@@ -17,3 +17,5 @@ Pre
 
 patient table NOT NULL consantraint!
 int fonksyonları boş kalamaz!
+
+https://covid19-saglik.herokuapp.com/
