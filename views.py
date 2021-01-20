@@ -334,6 +334,4 @@ def admin():
     test = cursor.fetchall()
     cursor.execute("SELECT * FROM hospital;")
     hospital = cursor.fetchall()
-    return render_template(
-        "admin.html", title="Admin Panel", patient=patient, test=test, hospital=hospital
-    )
+    return render_template("admin.html", patient=patient, test=test, hospital=hospital)
